@@ -35,6 +35,7 @@ def post_dataframe():
     #input_df = json_normalize(jsonData["data"]) #Results contain the required data
     input_df = pd.DataFrame(jsonData["data"]) #Results contain the required data
     input_df.index = jsonData["index"]
+    input_df.columns = jsonData["columns"]
     #return render_template('simple.html',  tables=[input_df.to_html(classes='data')], titles=input_df.columns.values)
     print(input_df, file=sys.stderr)
     return "Input Dataframe successful"  # Dataframeをレスポンス
@@ -44,6 +45,7 @@ def apply_tradeoff():
     jsonData = request.get_json(force=True)  # POSTされたJSONを取得
     input_df = pd.DataFrame(jsonData["data"]) #Results contain the required data
     input_df.index = jsonData["index"]
+    input_df.columns = jsonData["columns"]
     #return render_template('simple.html',  tables=[input_df.to_html(classes='data')], titles=input_df.columns.values)
     print("Input Dataframe successful", file=sys.stderr)
     print(input_df, file=sys.stderr)
@@ -58,6 +60,7 @@ def apply_coordinate():
     jsonData = request.get_json(force=True)  # POSTされたJSONを取得
     input_df = pd.DataFrame(jsonData["data"]) #Results contain the required data
     input_df.index = jsonData["index"]
+    input_df.columns = jsonData["columns"]
     #return render_template('simple.html',  tables=[input_df.to_html(classes='data')], titles=input_df.columns.values)
     print("Input Dataframe successful", file=sys.stderr)
     print(input_df, file=sys.stderr)
@@ -72,6 +75,7 @@ def apply_clustering():
     jsonData = request.get_json(force=True)  # POSTされたJSONを取得
     input_df = pd.DataFrame(jsonData["data"]) #Results contain the required data
     input_df.index = jsonData["index"]
+    input_df.columns = jsonData["columns"]
     #return render_template('simple.html',  tables=[input_df.to_html(classes='data')], titles=input_df.columns.values)
     print("Input Dataframe successful", file=sys.stderr)
     print(input_df, file=sys.stderr)
@@ -86,6 +90,7 @@ def apply_partitioning():
     jsonData = request.get_json(force=True)  # POSTされたJSONを取得
     input_df = pd.DataFrame(jsonData["data"]) #Results contain the required data
     input_df.index = jsonData["index"]
+    input_df.columns = jsonData["columns"]
     #return render_template('simple.html',  tables=[input_df.to_html(classes='data')], titles=input_df.columns.values)
     print("Input Dataframe successful", file=sys.stderr)
     print(input_df, file=sys.stderr)
