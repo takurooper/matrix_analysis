@@ -52,7 +52,7 @@ def apply_tradeoff():
     output_df = tradeoff.solve_tradeoff_matrix(input_df)
     print("Analyzing Dataframe successful", file=sys.stderr)
     print(output_df, file=sys.stderr)
-    arrayData = output_df.values
+    arrayData = output_df.values.tolist()
     index_list = list(output_df.index)
     columns_list = list(output_df.columns)
     return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
@@ -69,7 +69,7 @@ def apply_coordinate():
     output_df = coordinate.solve_coordinate_matrix(input_df)
     print("Analyzing Dataframe successful", file=sys.stderr)
     print(output_df, file=sys.stderr)
-    arrayData = output_df.values
+    arrayData = output_df.values.tolist()
     index_list = list(output_df.index)
     columns_list = list(output_df.columns)
     return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
@@ -86,7 +86,7 @@ def apply_clustering():
     output_df = DSMClustering.DSM_clustering(input_df)
     print("Analyzing Dataframe successful", file=sys.stderr)
     print(output_df, file=sys.stderr)
-    arrayData = output_df.values
+    arrayData = output_df.values.tolist()
     index_list = list(output_df.index)
     columns_list = list(output_df.columns)
     return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
@@ -103,7 +103,7 @@ def apply_partitioning():
     output_df = DSMPartitioning.DSM_partitioning(input_df)
     print("Analyzing Dataframe successful", file=sys.stderr)
     print(output_df, file=sys.stderr)
-    arrayData = output_df.values
+    arrayData = output_df.values.tolist()
     index_list = list(output_df.index)
     columns_list = list(output_df.columns)
     return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
