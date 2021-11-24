@@ -8,15 +8,15 @@ from pylibrary import DSMClustering, DSMPartitioning, tradeoff, coordinate
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False  #JSONでの日本語文字化け対策
 
-@app.route("/hello")
+@app.route("/")
 def hello():
     return "Hello world!"
 
-@app.route('/<int:baz>', methods=['POST'])
+@app.route('/test/<int:baz>', methods=['POST'])
 def post_foobar(baz):
     return 'you posted {}\n'.format(baz)
 
-@app.route('/analyze/test', methods=['GET'])
+@app.route('/test/get_json', methods=['GET'])
 def get_json_from_dictionary():
     dic = {
         'foo': 'bar',
@@ -24,15 +24,16 @@ def get_json_from_dictionary():
     }
     return jsonify(dic)  # JSONをレスポンス
 
-@app.route('/analyze/test/json', methods=['POST'])
+@app.route('/test/post_json', methods=['POST'])
 def post_json():
     jsonData = request.get_json(force=True)  # POSTされたJSONを取得
     return jsonify(jsonData)  # JSONをレスポンス
 
-@app.route('/analyze/test/dataframe', methods=['POST'])
+@app.route('/test/post_dataframe', methods=['POST'])
 def post_dataframe():
     jsonData = request.get_json(force=True)  # POSTされたJSONを取得
-    input_df = json_normalize(jsonData["data"]) #Results contain the required data
+    #input_df = json_normalize(jsonData["data"]) #Results contain the required data
+    input_df = pd.DataFrame(jsonData["data"]) #Results contain the required data
     input_df.index = jsonData["index"]
     #return render_template('simple.html',  tables=[input_df.to_html(classes='data')], titles=input_df.columns.values)
     print(input_df, file=sys.stderr)
@@ -41,7 +42,7 @@ def post_dataframe():
 @app.route('/tradeoff', methods=['POST'])
 def apply_tradeoff():
     jsonData = request.get_json(force=True)  # POSTされたJSONを取得
-    input_df = json_normalize(jsonData["data"]) #Results contain the required data
+    input_df = pd.DataFrame(jsonData["data"]) #Results contain the required data
     input_df.index = jsonData["index"]
     #return render_template('simple.html',  tables=[input_df.to_html(classes='data')], titles=input_df.columns.values)
     print("Input Dataframe successful", file=sys.stderr)
@@ -55,7 +56,7 @@ def apply_tradeoff():
 @app.route('/coordinate', methods=['POST'])
 def apply_coordinate():
     jsonData = request.get_json(force=True)  # POSTされたJSONを取得
-    input_df = json_normalize(jsonData["data"]) #Results contain the required data
+    input_df = pd.DataFrame(jsonData["data"]) #Results contain the required data
     input_df.index = jsonData["index"]
     #return render_template('simple.html',  tables=[input_df.to_html(classes='data')], titles=input_df.columns.values)
     print("Input Dataframe successful", file=sys.stderr)
@@ -69,7 +70,7 @@ def apply_coordinate():
 @app.route('/clustering', methods=['POST'])
 def apply_clustering():
     jsonData = request.get_json(force=True)  # POSTされたJSONを取得
-    input_df = json_normalize(jsonData["data"]) #Results contain the required data
+    input_df = pd.DataFrame(jsonData["data"]) #Results contain the required data
     input_df.index = jsonData["index"]
     #return render_template('simple.html',  tables=[input_df.to_html(classes='data')], titles=input_df.columns.values)
     print("Input Dataframe successful", file=sys.stderr)
@@ -83,7 +84,7 @@ def apply_clustering():
 @app.route('/partitioning', methods=['POST'])
 def apply_partitioning():
     jsonData = request.get_json(force=True)  # POSTされたJSONを取得
-    input_df = json_normalize(jsonData["data"]) #Results contain the required data
+    input_df = pd.DataFrame(jsonData["data"]) #Results contain the required data
     input_df.index = jsonData["index"]
     #return render_template('simple.html',  tables=[input_df.to_html(classes='data')], titles=input_df.columns.values)
     print("Input Dataframe successful", file=sys.stderr)
