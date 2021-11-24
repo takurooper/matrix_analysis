@@ -52,8 +52,10 @@ def apply_tradeoff():
     output_df = tradeoff.solve_tradeoff_matrix(input_df)
     print("Analyzing Dataframe successful", file=sys.stderr)
     print(output_df, file=sys.stderr)
-    jsonData = output_df.to_json()
-    return jsonify(jsonData)  # JSONをレスポンス
+    arrayData = output_df.values
+    index_list = list(output_df.index)
+    columns_list = list(output_df.columns)
+    return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
 
 @app.route('/coordinate', methods=['POST'])
 def apply_coordinate():
@@ -67,8 +69,10 @@ def apply_coordinate():
     output_df = coordinate.solve_coordinate_matrix(input_df)
     print("Analyzing Dataframe successful", file=sys.stderr)
     print(output_df, file=sys.stderr)
-    jsonData = output_df.to_json()
-    return jsonify(jsonData)  # JSONをレスポンス
+    arrayData = output_df.values
+    index_list = list(output_df.index)
+    columns_list = list(output_df.columns)
+    return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
 
 @app.route('/clustering', methods=['POST'])
 def apply_clustering():
@@ -82,8 +86,10 @@ def apply_clustering():
     output_df = DSMClustering.DSM_clustering(input_df)
     print("Analyzing Dataframe successful", file=sys.stderr)
     print(output_df, file=sys.stderr)
-    jsonData = output_df.to_json()
-    return jsonify(jsonData)  # JSONをレスポンス
+    arrayData = output_df.values
+    index_list = list(output_df.index)
+    columns_list = list(output_df.columns)
+    return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
 
 @app.route('/partitioning', methods=['POST'])
 def apply_partitioning():
@@ -97,8 +103,10 @@ def apply_partitioning():
     output_df = DSMPartitioning.DSM_partitioning(input_df)
     print("Analyzing Dataframe successful", file=sys.stderr)
     print(output_df, file=sys.stderr)
-    jsonData = output_df.to_json()
-    return jsonify(jsonData)  # JSONをレスポンス
+    arrayData = output_df.values
+    index_list = list(output_df.index)
+    columns_list = list(output_df.columns)
+    return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
 
 if __name__ == "__main__":
     app.run()
