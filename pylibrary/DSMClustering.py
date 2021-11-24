@@ -1,13 +1,8 @@
 from functools import reduce
 import random
-import re
-import string
 import time
 
-from matplotlib import pyplot as plt
 import numpy as np
-from openpyxl import load_workbook
-from openpyxl.styles import Border, Side
 import pandas as pd
 
 #Clustering Method

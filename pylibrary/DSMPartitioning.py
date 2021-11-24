@@ -1,7 +1,3 @@
-#import系
-import pandas as pd
-import numpy as np
-
 #DataFrameのテーブル作り(本来はここが入力値に当たるところ)
 #※数字のみで構成されていること
 #例：
