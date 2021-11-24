@@ -1,0 +1,8 @@
+[
+         { "id": "1", "Name": "Jay" },
+         { "id": "2", "Name": "Mark" },
+         { "id": "3", "Name": "Jack" }
+]
+
+curl -X POST -H "Content-Type: application/json" -d '{"Name":"sensuikan1973", "Age":"100"}' localhost:8080/api/v1/users
+curl -X POST -H "Content-Type: application/json" -d '[{ "id": "1", "Name": "Jay" }, { "id": "2", "Name": "Mark" }, { "id": "3", "Name": "Jack" } ]' localhost:5000/analyze/test/dataframe
