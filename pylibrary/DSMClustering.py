@@ -7,7 +7,7 @@ import pandas as pd
 
 #Clustering Method
 # clustering algorithm
-def cluster_parameter(dsm, pow_cc=1.0, pow_bid=1.0, pow_dep=4.0, times=2, max_size=0.8, rand=2):
+def cluster_parameter(dsm, pow_cc, pow_bid, pow_dep, times, max_size, rand):
     size = len(dsm)
     cluster_param = {'pow_cc': pow_cc,
                     'pow_bid': pow_bid,
@@ -238,14 +238,7 @@ def place_diag(old_matrix, diagonal_element):
 
     return new_matrix
 
-def DSM_clustering(input_dsm):
-    pow_cc=3.0
-    pow_bid=0.0
-    pow_dep=1.0
-    times=60
-    max_size=0.8
-    rand=2
-    itc=1
+def DSM_clustering(input_dsm, pow_cc, pow_bid, pow_dep, times, max_size, rand, itc):
 
     dsm_label = input_dsm.columns.tolist()
     dsm_matrix = input_dsm.values
@@ -256,7 +249,7 @@ def DSM_clustering(input_dsm):
     cluster_matrix = reorder_cluster(cluster_matrix)
     (new_dsm_matrix, new_dem_labels) = reorder_dsm_by_cluster(dsm_matrix, cluster_matrix, dsm_label)
     new_dsm_matrix = place_diag(new_dsm_matrix, 1)
-    new_dsm_matrix = np.around(new_dsm_matrix, decimals=4)
+    #new_dsm_matrix = np.around(new_dsm_matrix, decimals)
 
     df = pd.DataFrame(new_dsm_matrix, columns=new_dem_labels, index=new_dem_labels)
     return df

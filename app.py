@@ -83,7 +83,7 @@ def apply_clustering():
     #return render_template('simple.html',  tables=[input_df.to_html(classes='data')], titles=input_df.columns.values)
     print("Input Dataframe successful", file=sys.stderr)
     print(input_df, file=sys.stderr)
-    output_df = DSMClustering.DSM_clustering(input_df)
+    output_df = DSMClustering.DSM_clustering(input_df, jsonData["pow_cc"], jsonData["pow_bid"], jsonData["pow_dep"], jsonData["times"], jsonData["max_size"], jsonData["rand"], jsonData["itc"])
     print("Analyzing Dataframe successful", file=sys.stderr)
     print(output_df, file=sys.stderr)
     arrayData = output_df.values.tolist()
