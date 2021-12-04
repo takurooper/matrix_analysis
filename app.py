@@ -3,7 +3,7 @@ import sys
 from flask import Flask, request, jsonify , render_template, session, redirect
 import pandas as pd
 from pandas import json_normalize
-from pylibrary import DSMClustering, DSMPartitioning, tradeoff, coordinate
+from pylibrary import DSMClustering, DSMPartitioning, tradeoff, coordinate, utilityChange
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False  #JSONでの日本語文字化け対策
@@ -107,6 +107,18 @@ def apply_partitioning():
     index_list = list(output_df.index)
     columns_list = list(output_df.columns)
     return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
+
+@app.route('/utility-change', methods=['POST'])
+def apply_utilityChange():
+    jsonData = request.get_json(force=True)  # POSTされたJSONを取得
+    df1 = pd.DataFrame(jsonData["data_1"]) #Results contain the required data
+    df2 = pd.DataFrame(jsonData["data_2"])
+    df3 = pd.DataFrame(jsonData["data_3"])
+    df4 = pd.DataFrame(jsonData["data_4"])
+    output = utilityChange.utility_change(df1, df2, df3, df4)
+    print("Analyzing Dataframe successful", file=sys.stderr)
+    print(output, file=sys.stderr)
+    return jsonify({"data": output})
 
 if __name__ == "__main__":
     app.run()
