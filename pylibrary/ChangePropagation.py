@@ -16,7 +16,7 @@ def Change_propagation_df_DSM(df_qfd):
                     a = int(re.sub(r"\D", "", list2[k])) / int(re.sub(r"\D", "", list1[k]))
                     stvij += a
             #機能尺度i→機能尺度jの期待変更伝播感度の値
-            psij = stvij/(df_qfd0.count(axis=1)[i]-1)#分母は機能尺度iと影響関係を持つ設計変数の数
+            psij = stvij/(df_qfd.count(axis=1)[i]-1)#分母は機能尺度iと影響関係を持つ設計変数の数
             listi.append(psij)
         list0.append(listi)
     label1 = df_qfd["機能尺度/設計変数"].to_list()
