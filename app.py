@@ -3,7 +3,7 @@ import sys
 from flask import Flask, request, jsonify , render_template, session, redirect
 import pandas as pd
 from pandas import json_normalize
-from pylibrary import DSMClustering, DSMPartitioning, tradeoff, coordinate, utilityChange
+from pylibrary import DSMClustering, DSMPartitioning, tradeoff, coordinate, utilityChange, ChangePropagation
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False  #JSONでの日本語文字化け対策
@@ -119,6 +119,23 @@ def apply_utilityChange():
     print("Analyzing Dataframe successful", file=sys.stderr)
     print(output, file=sys.stderr)
     return jsonify({"data": output})
+
+@app.route('/change-propagation', methods=['POST'])
+def apply_changePropagation():
+    jsonData = request.get_json(force=True)  # POSTされたJSONを取得
+    input_df = pd.DataFrame(jsonData["data"]) #Results contain the required data
+    input_df.index = jsonData["index"]
+    input_df.columns = jsonData["columns"]
+    #return render_template('simple.html',  tables=[input_df.to_html(classes='data')], titles=input_df.columns.values)
+    print("Input Dataframe successful", file=sys.stderr)
+    print(input_df, file=sys.stderr)
+    output_df = ChangePropagation.Change_propagation_df_DSM(input_df)
+    print("Analyzing Dataframe successful", file=sys.stderr)
+    print(output_df, file=sys.stderr)
+    arrayData = output_df.values.tolist()
+    index_list = list(output_df.index)
+    columns_list = list(output_df.columns)
+    return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
 
 if __name__ == "__main__":
     app.run()
