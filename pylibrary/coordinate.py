@@ -16,4 +16,5 @@ def solve_coordinate_matrix(df):
                 list_2d[row][index] = dotproduct
     max_num_in_list = np.nanmax(list(map(lambda x: max(x), list_2d)))
     fnfn = pd.DataFrame(list_2d,index=fn_list,columns=fn_list)
-    return fnfn/max_num_in_list
+    fnfn = fnfn/max_num_in_list
+    return fnfn.fillna("null")

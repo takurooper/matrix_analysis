@@ -16,4 +16,5 @@ def solve_tradeoff_matrix(df):
                 list_2d[row][index] = dotproduct
     max_num_in_list = np.nanmax(list(map(lambda x: max(x), list_2d)))
     gpgp = pd.DataFrame(list_2d,index=gp_list,columns=gp_list)
-    return gpgp/max_num_in_list
+    gpgp = gpgp/max_num_in_list
+    return gpgp.fillna("null")
