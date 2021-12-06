@@ -8,7 +8,7 @@ def solve_tradeoff_matrix(df):
     for index in range(len(list_2d)):
         for row in range(len(list_2d)):
             if index==row:
-                list_2d[index][row]=1
+                list_2d[index][row]=np.NaN
             elif index > row:
                 #index=1 gp2, row=0 gp1
                 dotproduct = np.dot(list(fngp.iloc[:,index]),list(fngp.iloc[:,row]))
