@@ -195,11 +195,11 @@ def calculate_design_policy_matrix_c(df_qfd, rank_scale_matrix):
 def main(df_qfd, df_fn_imp, df_dp_precon, calc_type):
     df_qfd = df_qfd.fillna(0)
     operational_risk_matrix = calculate_operational_risk_matrix(df_qfd, df_fn_imp)
-    if calc_type=="a":
+    if calc_type=="a=前提条件重視":
         design_policy_matrix = calculate_design_policy_matrix_a(df_qfd, df_dp_precon, operational_risk_matrix)
-    elif calc_type=="b":
+    elif calc_type=="b=前提条件軽視":
         design_policy_matrix = calculate_design_policy_matrix_b(df_qfd, df_dp_precon, operational_risk_matrix)
-    elif calc_type=="c":
+    elif calc_type=="c=機能尺度ごとに引き直し":
         rank_scale_matrix = calculate_rank_scale_matrix(df_qfd, df_dp_precon, operational_risk_matrix)
         design_policy_matrix = calculate_design_policy_matrix_c(df_qfd, rank_scale_matrix)
     return design_policy_matrix
