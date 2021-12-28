@@ -36,6 +36,66 @@ def calculate_operational_risk_matrix(df_qfd, df_fn_imp):
                         operational_risk_matrix.iloc[k,i] = "High_Risk"
     return(operational_risk_matrix)
 
+#操作選好(=赤緑)の導出(前提条件重視)
+def calculate_design_policy_matrix_a(df_qfd, df_dp_precon, operational_risk_matrix):
+    #操作選好マトリクスの入れ物(df)を作っておく
+    design_policy_matrix = df_qfd.copy()
+    design_policy_matrix.replace(0,np.nan)
+    for i in range(1,len(df_qfd.columns)):
+        #前提条件ない場合
+        if df_dp_precon.iloc[i-1,1] == "Not Preconditioned":      
+            for j in range(len(df_qfd.iloc[:,i])):
+                if abs(df_qfd.iloc[j,i]) == 3:
+                    if operational_risk_matrix.iloc[j,i] == "No_Risk":
+                        design_policy_matrix.iloc[j,i] = "Preferred"
+                    elif operational_risk_matrix.iloc[j,i] == "Low_Risk":
+                        design_policy_matrix.iloc[j,i] = "Preferred"
+                    elif operational_risk_matrix.iloc[j,i] == "High_Risk":
+                        design_policy_matrix.iloc[j,i] = "Not Preferred"
+                elif abs(df_qfd.iloc[j,i]) == 1:
+                    if operational_risk_matrix.iloc[j,i] == "No_Risk":
+                        design_policy_matrix.iloc[j,i] = "Controversial"
+                    elif operational_risk_matrix.iloc[j,i] == "Low_Risk":
+                        design_policy_matrix.iloc[j,i] = "Controversial"
+                    elif operational_risk_matrix.iloc[j,i] == "High_Risk":
+                        design_policy_matrix.iloc[j,i] = "Not Preferred"
+                else:
+                    design_policy_matrix.iloc[j,i] = np.nan
+        #前提条件ある場合
+        else:
+            for j in range(len(df_qfd.iloc[:,i])):
+                if df_qfd.iloc[j,i] != 0:
+                    design_policy_matrix.iloc[j,i] = "Not Preferred"
+                else:
+                    design_policy_matrix.iloc[j,i] = np.nan              
+    return(design_policy_matrix)
+
+#操作選好(=赤緑)の導出(前提条件重視)
+def calculate_design_policy_matrix_b(df_qfd, df_dp_precon, operational_risk_matrix):
+    #操作選好マトリクスの入れ物(df)を作っておく
+    design_policy_matrix = df_qfd.copy()
+    design_policy_matrix.replace(0,np.nan)
+    for i in range(1,len(df_qfd.columns)):
+        #前提条件ないもある場合も     
+        for j in range(len(df_qfd.iloc[:,i])):
+            if abs(df_qfd.iloc[j,i]) == 3:
+                if operational_risk_matrix.iloc[j,i] == "No_Risk":
+                    design_policy_matrix.iloc[j,i] = "Preferred"
+                elif operational_risk_matrix.iloc[j,i] == "Low_Risk":
+                    design_policy_matrix.iloc[j,i] = "Preferred"
+                elif operational_risk_matrix.iloc[j,i] == "High_Risk":
+                    design_policy_matrix.iloc[j,i] = "Not Preferred"
+            elif abs(df_qfd.iloc[j,i]) == 1:
+                if operational_risk_matrix.iloc[j,i] == "No_Risk":
+                    design_policy_matrix.iloc[j,i] = "Controversial"
+                elif operational_risk_matrix.iloc[j,i] == "Low_Risk":
+                    design_policy_matrix.iloc[j,i] = "Controversial"
+                elif operational_risk_matrix.iloc[j,i] == "High_Risk":
+                    design_policy_matrix.iloc[j,i] = "Not Preferred"
+            else:
+                design_policy_matrix.iloc[j,i] = np.nan         
+    return(design_policy_matrix)
+
 #順位尺度の導出
 def calculate_rank_scale_matrix(df_qfd, df_dp_precon, operational_risk_matrix):
     #順位尺度マトリクスの導出
@@ -77,7 +137,7 @@ def min_max(raw):
     return  max(raw_), min(raw_)
 
 #操作選好(=赤緑)の導出(機能尺度毎に引き直した操作選好導出)
-def calculate_design_policy_matrix(df_qfd, rank_scale_matrix):
+def calculate_design_policy_matrix_c(df_qfd, rank_scale_matrix):
     #赤緑マトリクスの導出
     #赤緑マトリクスの入れ物(df)を作っておく
     design_policy_matrix = df_qfd.copy()
@@ -132,9 +192,14 @@ def calculate_design_policy_matrix(df_qfd, rank_scale_matrix):
     return(design_policy_matrix)
 
 #メイン関数
-def main(df_qfd, df_fn_imp, df_dp_precon):
+def main(df_qfd, df_fn_imp, df_dp_precon, calc_type):
     df_qfd = df_qfd.fillna(0)
     operational_risk_matrix = calculate_operational_risk_matrix(df_qfd, df_fn_imp)
-    rank_scale_matrix = calculate_rank_scale_matrix(df_qfd, df_dp_precon, operational_risk_matrix)
-    design_policy_matrix = calculate_design_policy_matrix(df_qfd, rank_scale_matrix)
+    if calc_type=="a":
+        design_policy_matrix = calculate_design_policy_matrix_a(df_qfd, df_dp_precon, operational_risk_matrix)
+    elif calc_type=="b":
+        design_policy_matrix = calculate_design_policy_matrix_b(df_qfd, df_dp_precon, operational_risk_matrix)
+    elif calc_type=="c":
+        rank_scale_matrix = calculate_rank_scale_matrix(df_qfd, df_dp_precon, operational_risk_matrix)
+        design_policy_matrix = calculate_design_policy_matrix_c(df_qfd, rank_scale_matrix)
     return design_policy_matrix

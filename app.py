@@ -3,7 +3,7 @@ import sys
 from flask import Flask, request, jsonify , render_template, session, redirect
 import pandas as pd
 from pandas import json_normalize
-from pylibrary import DSMClustering, DSMPartitioning, tradeoff, coordinate, utilityChange, ChangePropagation, OperationPreference_a, OperationPreference_b, OperationPreference_c
+from pylibrary import DSMClustering, DSMPartitioning, tradeoff, coordinate, utilityChange, ChangePropagation, OperationPreference
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False  #JSONでの日本語文字化け対策
@@ -137,35 +137,13 @@ def apply_changePropagation():
     columns_list = list(output_df.columns)
     return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
 
-@app.route('/operation-preference-a', methods=['POST'])
-def operation_preference_a():
+@app.route('/operation-preference', methods=['POST'])
+def operation_preference():
     jsonData = request.get_json(force=True)  # POSTされたJSONを取得
     df_qfd = pd.DataFrame(jsonData["data_1"]) #Results contain the required data
     df_fn_imp = pd.DataFrame(jsonData["data_2"])
     df_dp_precon = pd.DataFrame(jsonData["data_3"])
-    output = OperationPreference_a.main(df_qfd, df_fn_imp, df_dp_precon)
-    print("Analyzing Dataframe successful", file=sys.stderr)
-    print(output, file=sys.stderr)
-    return jsonify({"data": output})
-
-@app.route('/operation-preference-b', methods=['POST'])
-def operation_preference_b():
-    jsonData = request.get_json(force=True)  # POSTされたJSONを取得
-    df_qfd = pd.DataFrame(jsonData["data_1"]) #Results contain the required data
-    df_fn_imp = pd.DataFrame(jsonData["data_2"])
-    df_dp_precon = pd.DataFrame(jsonData["data_3"])
-    output = OperationPreference_b.main(df_qfd, df_fn_imp, df_dp_precon)
-    print("Analyzing Dataframe successful", file=sys.stderr)
-    print(output, file=sys.stderr)
-    return jsonify({"data": output})
-
-@app.route('/operation-preference-c', methods=['POST'])
-def operation_preference_c():
-    jsonData = request.get_json(force=True)  # POSTされたJSONを取得
-    df_qfd = pd.DataFrame(jsonData["data_1"]) #Results contain the required data
-    df_fn_imp = pd.DataFrame(jsonData["data_2"])
-    df_dp_precon = pd.DataFrame(jsonData["data_3"])
-    output = OperationPreference_c.main(df_qfd, df_fn_imp, df_dp_precon)
+    output = OperationPreference.main(df_qfd, df_fn_imp, df_dp_precon, jsonData["calc_type"])
     print("Analyzing Dataframe successful", file=sys.stderr)
     print(output, file=sys.stderr)
     return jsonify({"data": output})
