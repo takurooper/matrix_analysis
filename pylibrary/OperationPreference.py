@@ -202,4 +202,4 @@ def main(df_qfd, df_fn_imp, df_dp_precon, calc_type):
     elif calc_type=="c=機能尺度ごとに引き直し":
         rank_scale_matrix = calculate_rank_scale_matrix(df_qfd, df_dp_precon, operational_risk_matrix)
         design_policy_matrix = calculate_design_policy_matrix_c(df_qfd, rank_scale_matrix)
-    return design_policy_matrix
+    return design_policy_matrix.fillna("null")

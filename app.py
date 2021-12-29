@@ -3,6 +3,7 @@ import sys
 from flask import Flask, request, jsonify , render_template, session, redirect
 import pandas as pd
 from pandas import json_normalize
+import numpy as np
 from pylibrary import DSMClustering, DSMPartitioning, tradeoff, coordinate, utilityChange, ChangePropagation, OperationPreference
 
 app = Flask(__name__)
@@ -140,13 +141,19 @@ def apply_changePropagation():
 @app.route('/operation-preference', methods=['POST'])
 def operation_preference():
     jsonData = request.get_json(force=True)  # POSTされたJSONを取得
-    df_qfd = pd.DataFrame(jsonData["data_1"]) #Results contain the required data
-    df_fn_imp = pd.DataFrame(jsonData["data_2"])
-    df_dp_precon = pd.DataFrame(jsonData["data_3"])
+    data_1 = jsonData["data_1"]
+    data_1_columns = data_1.pop(0)
+    df_qfd = pd.DataFrame(data_1, columns=data_1_columns) #Results contain the required data
+    data_2 = jsonData["data_2"]
+    data_2_columns = data_2.pop(0)
+    df_fn_imp = pd.DataFrame(data_2, columns=data_2_columns)
+    data_3 = jsonData["data_3"]
+    data_3_columns = data_3.pop(0)
+    df_dp_precon = pd.DataFrame(data_3, columns=data_3_columns)
     output = OperationPreference.main(df_qfd, df_fn_imp, df_dp_precon, jsonData["calc_type"])
     print("Analyzing Dataframe successful", file=sys.stderr)
     print(output, file=sys.stderr)
-    return jsonify({"data": output})
+    return jsonify({"data": np.vstack((output.columns.tolist(), output.to_numpy())).tolist() })
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
