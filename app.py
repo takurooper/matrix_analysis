@@ -150,10 +150,13 @@ def operation_preference():
     data_3 = jsonData["data_3"]
     data_3_columns = data_3.pop(0)
     df_dp_precon = pd.DataFrame(data_3, columns=data_3_columns)
-    output = OperationPreference.main(df_qfd, df_fn_imp, df_dp_precon, jsonData["calc_type"])
+    output_df = OperationPreference.main(df_qfd, df_fn_imp, df_dp_precon, jsonData["calc_type"])
     print("Analyzing Dataframe successful", file=sys.stderr)
-    print(output, file=sys.stderr)
-    return jsonify({"data": np.vstack((output.columns.tolist(), output.to_numpy())).tolist() })
+    print(output_df, file=sys.stderr)
+    arrayData = output_df.values.tolist()
+    index_list = list(output_df.index)
+    columns_list = list(output_df.columns)
+    return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
 
 if __name__ == "__main__":
     app.run()
