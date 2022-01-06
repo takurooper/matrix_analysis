@@ -33,7 +33,7 @@ def post_json():
         return jsonify(jsonData)  # JSONをレスポンス
     except Exception:
         return {
-                    'message': "{}".format(traceback.format_exc()),
+                    'error': "{}".format(traceback.format_exc())
                 }
 
 @app.route('/test/post_dataframe', methods=['POST'])
@@ -66,7 +66,7 @@ def apply_tradeoff():
         return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
     except Exception:
         return {
-                    'message': "{}".format(traceback.format_exc()),
+                    'error': "{}".format(traceback.format_exc())
                 }
 
 @app.route('/coordinate', methods=['POST'])
@@ -88,7 +88,7 @@ def apply_coordinate():
         return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
     except Exception:
         return {
-                    'message': "{}".format(traceback.format_exc()),
+                    'error': "{}".format(traceback.format_exc())
                 }
 
 @app.route('/clustering', methods=['POST'])
@@ -110,7 +110,7 @@ def apply_clustering():
         return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
     except Exception:
         return {
-                    'message': "{}".format(traceback.format_exc()),
+                    'error': "{}".format(traceback.format_exc())
                 }
 
 @app.route('/partitioning', methods=['POST'])
@@ -132,7 +132,7 @@ def apply_partitioning():
         return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
     except Exception:
         return {
-                    'message': "{}".format(traceback.format_exc()),
+                    'error': "{}".format(traceback.format_exc())
                 }
 
 @app.route('/utility-change', methods=['POST'])
@@ -149,7 +149,7 @@ def apply_utilityChange():
         return jsonify({"data": output})
     except Exception:
         return {
-                    'message': "{}".format(traceback.format_exc()),
+                    'error': "{}".format(traceback.format_exc())
                 }
 
 @app.route('/change-propagation', methods=['POST'])
@@ -171,7 +171,7 @@ def apply_changePropagation():
         return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
     except Exception:
         return {
-                    'message': "{}".format(traceback.format_exc()),
+                    'error': "{}".format(traceback.format_exc())
                 }
 
 @app.route('/operation-preference', methods=['POST'])
@@ -196,7 +196,7 @@ def operation_preference():
         return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
     except Exception:
         return {
-                    'message': "{}".format(traceback.format_exc()),
+                    'error': "{}".format(traceback.format_exc())
                 }
 
 if __name__ == "__main__":
