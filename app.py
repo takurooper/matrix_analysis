@@ -28,7 +28,12 @@ def get_json_from_dictionary():
 @app.route('/test/post_json', methods=['POST'])
 def post_json():
     jsonData = request.get_json(force=True)  # POSTされたJSONを取得
-    return jsonify(jsonData)  # JSONをレスポンス
+    try:
+        return jsonify(jsonData)  # JSONをレスポンス
+    except Exception as e:
+        return {
+                    'error': "{}".format(e)
+                }
 
 @app.route('/test/post_dataframe', methods=['POST'])
 def post_dataframe():
@@ -56,7 +61,12 @@ def apply_tradeoff():
     arrayData = output_df.values.tolist()
     index_list = list(output_df.index)
     columns_list = list(output_df.columns)
-    return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
+    try:
+        return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
+    except Exception as e:
+        return {
+                    'error': "{}".format(e)
+                }
 
 @app.route('/coordinate', methods=['POST'])
 def apply_coordinate():
@@ -73,7 +83,12 @@ def apply_coordinate():
     arrayData = output_df.values.tolist()
     index_list = list(output_df.index)
     columns_list = list(output_df.columns)
-    return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
+    try:
+        return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
+    except Exception as e:
+        return {
+                    'error': "{}".format(e)
+                }
 
 @app.route('/clustering', methods=['POST'])
 def apply_clustering():
@@ -90,7 +105,12 @@ def apply_clustering():
     arrayData = output_df.values.tolist()
     index_list = list(output_df.index)
     columns_list = list(output_df.columns)
-    return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
+    try:
+        return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
+    except Exception as e:
+        return {
+                    'error': "{}".format(e)
+                }
 
 @app.route('/partitioning', methods=['POST'])
 def apply_partitioning():
@@ -107,7 +127,12 @@ def apply_partitioning():
     arrayData = output_df.values.tolist()
     index_list = list(output_df.index)
     columns_list = list(output_df.columns)
-    return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
+    try:
+        return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
+    except Exception as e:
+        return {
+                    'error': "{}".format(e)
+                }
 
 @app.route('/utility-change', methods=['POST'])
 def apply_utilityChange():
@@ -119,7 +144,12 @@ def apply_utilityChange():
     output = utilityChange.utility_change(df1, df2, df3, df4)
     print("Analyzing Dataframe successful", file=sys.stderr)
     print(output, file=sys.stderr)
-    return jsonify({"data": output})
+    try:
+        return jsonify({"data": output})
+    except Exception as e:
+        return {
+                    'error': "{}".format(e)
+                }
 
 @app.route('/change-propagation', methods=['POST'])
 def apply_changePropagation():
@@ -136,7 +166,12 @@ def apply_changePropagation():
     arrayData = output_df.values.tolist()
     index_list = list(output_df.index)
     columns_list = list(output_df.columns)
-    return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
+    try:
+        return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
+    except Exception as e:
+        return {
+                    'error': "{}".format(e)
+                }
 
 @app.route('/operation-preference', methods=['POST'])
 def operation_preference():
@@ -156,7 +191,12 @@ def operation_preference():
     arrayData = output_df.values.tolist()
     index_list = list(output_df.index)
     columns_list = list(output_df.columns)
-    return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
+    try:
+        return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
+    except Exception as e:
+        return {
+                    'error': "{}".format(e)
+                }
 
 if __name__ == "__main__":
     app.run()
