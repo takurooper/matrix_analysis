@@ -227,7 +227,7 @@ def solve_tradeoff_diff():
         df1 = pd.DataFrame(data_1, columns=data_1_columns).set_index('背反') #Results contain the required data
         data_2 = jsonData["data_2"]
         data_2_columns = data_2.pop(0)
-        df2 = pd.DataFrame(data_2, columns=data_2_columns.set_index('調整'))
+        df2 = pd.DataFrame(data_2, columns=data_2_columns).set_index('調整')
         output = tradeoff_diff.tradeoffDiff(df1, df2)
         print("Analyzing Dataframe successful", file=sys.stderr)
         print(output, file=sys.stderr)
