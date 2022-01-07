@@ -203,8 +203,12 @@ def operation_preference():
 def solve_coordinate_diff():
     try:
         jsonData = request.get_json(force=True)  # POSTされたJSONを取得
-        df1 = pd.DataFrame(jsonData["data_1"]) #Results contain the required data
-        df2 = pd.DataFrame(jsonData["data_2"])
+        data_1 = jsonData["data_1"]
+        data_1_columns = data_1.pop(0)
+        df1 = pd.DataFrame(data_1, columns=data_1_columns) #Results contain the required data
+        data_2 = jsonData["data_2"]
+        data_2_columns = data_2.pop(0)
+        df2 = pd.DataFrame(data_2, columns=data_2_columns)
         output = coordinate_diff.coordinateDiff(df1, df2)
         print("Analyzing Dataframe successful", file=sys.stderr)
         print(output, file=sys.stderr)
@@ -218,8 +222,12 @@ def solve_coordinate_diff():
 def solve_tradeoff_diff():
     try:
         jsonData = request.get_json(force=True)  # POSTされたJSONを取得
-        df1 = pd.DataFrame(jsonData["data_1"]) #Results contain the required data
-        df2 = pd.DataFrame(jsonData["data_2"])
+        data_1 = jsonData["data_1"]
+        data_1_columns = data_1.pop(0)
+        df1 = pd.DataFrame(data_1, columns=data_1_columns) #Results contain the required data
+        data_2 = jsonData["data_2"]
+        data_2_columns = data_2.pop(0)
+        df2 = pd.DataFrame(data_2, columns=data_2_columns)
         output = tradeoff_diff.tradeoffDiff(df1, df2)
         print("Analyzing Dataframe successful", file=sys.stderr)
         print(output, file=sys.stderr)
