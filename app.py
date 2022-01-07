@@ -4,7 +4,7 @@ from flask import Flask, request, jsonify , render_template, session, redirect
 import pandas as pd
 from pandas import json_normalize
 import numpy as np
-from pylibrary import DSMClustering, DSMPartitioning, tradeoff, coordinate, utilityChange, ChangePropagation, OperationPreference
+from pylibrary import DSMClustering, DSMPartitioning, tradeoff, coordinate, utilityChange, ChangePropagation, OperationPreference, tradeoff_diff, coordinate_diff
 import traceback
 
 app = Flask(__name__)
@@ -194,6 +194,36 @@ def operation_preference():
         index_list = list(output_df.index)
         columns_list = list(output_df.columns)
         return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
+    except Exception:
+        return {
+                    'error': "{}".format(traceback.format_exc())
+                }
+
+@app.route('/coordinate-diff', methods=['POST'])
+def solve_coordinate_diff():
+    try:
+        jsonData = request.get_json(force=True)  # POSTされたJSONを取得
+        df1 = pd.DataFrame(jsonData["data_1"]) #Results contain the required data
+        df2 = pd.DataFrame(jsonData["data_2"])
+        output = coordinate_diff.coordinateDiff(df1, df2)
+        print("Analyzing Dataframe successful", file=sys.stderr)
+        print(output, file=sys.stderr)
+        return jsonify({"data": output})
+    except Exception:
+        return {
+                    'error': "{}".format(traceback.format_exc())
+                }
+
+@app.route('/tradeoff-diff', methods=['POST'])
+def solve_tradeoff_diff():
+    try:
+        jsonData = request.get_json(force=True)  # POSTされたJSONを取得
+        df1 = pd.DataFrame(jsonData["data_1"]) #Results contain the required data
+        df2 = pd.DataFrame(jsonData["data_2"])
+        output = tradeoff_diff.tradeoffDiff(df1, df2)
+        print("Analyzing Dataframe successful", file=sys.stderr)
+        print(output, file=sys.stderr)
+        return jsonify({"data": output})
     except Exception:
         return {
                     'error': "{}".format(traceback.format_exc())
