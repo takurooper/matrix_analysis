@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 def solve_coordinate_matrix(df):
-    fngp = (df.iloc[:,1:].T*list(df.iloc[:,0])).T/81
+    fngp = (df.iloc[:,1:].T*list(df.iloc[:,0])).T/9
     fn_list = fngp.index
     list_2d = [[0] * len(fngp.columns) for i in range(len(fngp.columns))]
     for index in range(len(list_2d)):

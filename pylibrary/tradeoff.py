@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 def solve_tradeoff_matrix(df):
-    fngp = (df.iloc[:,1:].T*list(df.iloc[:,0])).T/81
+    fngp = (df.iloc[:,1:].T*list(df.iloc[:,0])).T/9
     gp_list = fngp.columns
     list_2d = [[0] * len(fngp.columns) for i in range(len(fngp.columns))]
     for index in range(len(list_2d)):
