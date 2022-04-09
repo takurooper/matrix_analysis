@@ -3,13 +3,9 @@ import sys
 from flask import Flask, request, jsonify , render_template, session, redirect
 import pandas as pd
 from pandas import json_normalize
-<<<<<<< HEAD
-from pylibrary import DSMClustering, DSMPartitioning, tradeoff, coordinate, utilityChange, ChangePropagation, system1, system2, system4
-=======
 import numpy as np
-from pylibrary import DSMClustering, DSMPartitioning, tradeoff, coordinate, utilityChange, ChangePropagation, OperationPreference, tradeoff_diff, coordinate_diff
+from pylibrary import DSMClustering, DSMPartitioning, tradeoff, coordinate, utilityChange, ChangePropagation, OperationPreference, tradeoff_diff, coordinate_diff, system1, system2, system4
 import traceback
->>>>>>> e14202e9fc6c8530fa56f591016a912ec6d19d15
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False  #JSONでの日本語文字化け対策
