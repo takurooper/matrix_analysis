@@ -239,13 +239,18 @@ def solve_tradeoff_diff():
 
 @app.route('/system1', methods=['POST']) #utility-changeを参考にした
 def apply_system1():
-    jsonData = request.get_json(force=True)  # POSTされたJSONを取得
-    df1 = pd.DataFrame(jsonData["data_1"]) #Results contain the required data
-    df2 = pd.DataFrame(jsonData["data_2"])
-    output = system1.main(df1, df2)
-    print("Analyzing Dataframe successful", file=sys.stderr)
-    print(output, file=sys.stderr)
-    return jsonify({"data": output})
+    try:
+        jsonData = request.get_json(force=True)  # POSTされたJSONを取得
+        df1 = pd.DataFrame(jsonData["data_1"]) #Results contain the required data
+        df2 = pd.DataFrame(jsonData["data_2"])
+        output = system1.main(df1, df2)
+        print("Analyzing Dataframe successful", file=sys.stderr)
+        print(output, file=sys.stderr)
+        return jsonify({"data": output})
+    except Exception:
+        return {
+                    'error': "{}".format(traceback.format_exc())
+                }    
 
 @app.route('/system2', methods=['POST']) #utility-changeを参考にした
 def apply_system2():
