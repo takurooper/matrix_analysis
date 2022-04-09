@@ -3,17 +3,6 @@ import pandas as pd
 import random
 import matplotlib.pyplot as plt
 
-#入力1
-#全体直接影響マトリクスを入力
-#空行ありで入れないとだめ
-
-total_direct_dataframe = pd.read_excel("入力_詳細モデル_全体直接影響マトリクス.xlsx",header=[0,1,2,3,4], index_col=[0,1,2,3,4], engine='openpyxl')
-
-#入力2
-#属性変化分df
-#(ラベル多階層，属性ラベルが行ラベル(縦長))
-change_atr_dataframe = pd.read_excel("入力_施策_属性変化分.xlsx",header=[0],index_col=[0,1,2,3,4], engine='openpyxl')
-
 #行列の正規化
 #入力の形
 # dataframe = pd.DataFrame([[0,3,1,0],[0,0,2,3],[0,0,0,2],[0,0,0,0]],

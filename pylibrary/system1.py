@@ -3,10 +3,6 @@ import pandas as pd
 import random
 import matplotlib.pyplot as plt
 
-#入力
-dataframe1_ = pd.read_excel("システム1入力データ1.xlsx",header=[0,1,2,3], index_col=[0,1,2], engine='openpyxl')
-dataframe2_ = pd.read_excel("システム1入力データ2.xlsx",header=[0,1,2], index_col=[0,1,2], engine='openpyxl')
-
 #任意のマトリクス(ラベル多階層でもOK)を入力とし，
 #ラベルをシンプル化=1階層(label1,label2,,,)にしたマトリクスを作成
 def label_simplify(df):
