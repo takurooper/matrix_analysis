@@ -3,7 +3,7 @@ import sys
 from flask import Flask, request, jsonify , render_template, session, redirect
 import pandas as pd
 from pandas import json_normalize
-from pylibrary import DSMClustering, DSMPartitioning, tradeoff, coordinate, utilityChange, ChangePropagation
+from pylibrary import DSMClustering, DSMPartitioning, tradeoff, coordinate, utilityChange, ChangePropagation, system1, system2, system4
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False  #JSONでの日本語文字化け対策
@@ -136,6 +136,36 @@ def apply_changePropagation():
     index_list = list(output_df.index)
     columns_list = list(output_df.columns)
     return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
+
+@app.route('/system1', methods=['POST']) #utility-changeを参考にした
+def apply_system1():
+    jsonData = request.get_json(force=True)  # POSTされたJSONを取得
+    df1 = pd.DataFrame(jsonData["data_1"]) #Results contain the required data
+    df2 = pd.DataFrame(jsonData["data_2"])
+    output = system1.main(df1, df2)
+    print("Analyzing Dataframe successful", file=sys.stderr)
+    print(output, file=sys.stderr)
+    return jsonify({"data": output})
+
+@app.route('/system2', methods=['POST']) #utility-changeを参考にした
+def apply_system2():
+    jsonData = request.get_json(force=True)  # POSTされたJSONを取得
+    df1 = pd.DataFrame(jsonData["data_1"]) #Results contain the required data
+    df2 = pd.DataFrame(jsonData["data_2"])
+    output = system2.main(df1, df2)
+    print("Analyzing Dataframe successful", file=sys.stderr)
+    print(output, file=sys.stderr)
+    return jsonify({"data": output})
+
+@app.route('/system4', methods=['POST']) #utility-changeを参考にした
+def apply_system4():
+    jsonData = request.get_json(force=True)  # POSTされたJSONを取得
+    df1 = pd.DataFrame(jsonData["data_1"]) #Results contain the required data
+    df2 = pd.DataFrame(jsonData["data_2"])
+    output = system4.main(df1, df2)
+    print("Analyzing Dataframe successful", file=sys.stderr)
+    print(output, file=sys.stderr)
+    return jsonify({"data": output})
 
 if __name__ == "__main__":
     app.run()
