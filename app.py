@@ -241,8 +241,8 @@ def solve_tradeoff_diff():
 def apply_system1():
     try:
         jsonData = request.get_json(force=True)  # POSTされたJSONを取得
-        df1 = pd.DataFrame(jsonData["data_1"],header=[0,1,2,3], index_col=[0,1,2]) #Results contain the required data
-        df2 = pd.DataFrame(jsonData["data_2"],header=[0,1,2], index_col=[0,1,2])
+        df1 = pd.DataFrame(jsonData["data_1"], header=[0,1,2,3], index_col=[0,1,2]) #Results contain the required data
+        df2 = pd.DataFrame(jsonData["data_2"], header=[0,1,2], index_col=[0,1,2])
         output = system1.main(df1, df2)
         print("Analyzing Dataframe successful", file=sys.stderr)
         print(output, file=sys.stderr)
@@ -252,25 +252,7 @@ def apply_system1():
                     'error': "{}".format(traceback.format_exc())
                 }    
 
-@app.route('/system2', methods=['POST']) #utility-changeを参考にした
-def apply_system2():
-    jsonData = request.get_json(force=True)  # POSTされたJSONを取得
-    df1 = pd.DataFrame(jsonData["data_1"]) #Results contain the required data
-    df2 = pd.DataFrame(jsonData["data_2"])
-    output = system2.main(df1, df2)
-    print("Analyzing Dataframe successful", file=sys.stderr)
-    print(output, file=sys.stderr)
-    return jsonify({"data": output})
 
-@app.route('/system4', methods=['POST']) #utility-changeを参考にした
-def apply_system4():
-    jsonData = request.get_json(force=True)  # POSTされたJSONを取得
-    df1 = pd.DataFrame(jsonData["data_1"]) #Results contain the required data
-    df2 = pd.DataFrame(jsonData["data_2"])
-    output = system4.main(df1, df2)
-    print("Analyzing Dataframe successful", file=sys.stderr)
-    print(output, file=sys.stderr)
-    return jsonify({"data": output})
 
 if __name__ == "__main__":
     app.run()
