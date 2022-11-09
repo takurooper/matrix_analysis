@@ -93,6 +93,8 @@ __pycache__/
 *.csv
 *.xlsx
 *.xml
+*.pyc
+pylibrary/__pycache__
 
 .python-version
 simple.html
