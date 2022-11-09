@@ -4,7 +4,7 @@ from flask import Flask, request, jsonify , render_template, session, redirect
 import pandas as pd
 from pandas import json_normalize
 import numpy as np
-from pylibrary import DSMClustering, DSMPartitioning, tradeoff, coordinate, utilityChange, ChangePropagation, OperationPreference, tradeoff_diff, coordinate_diff
+from pylibrary import DSMClustering, DSMPartitioning, tradeoff, coordinate, utilityChange, ChangePropagation, OperationPreference, tradeoff_diff, coordinate_diff, system1, system2, system4
 import traceback
 
 app = Flask(__name__)
@@ -236,6 +236,23 @@ def solve_tradeoff_diff():
         return {
                     'error': "{}".format(traceback.format_exc())
                 }
+
+@app.route('/system1', methods=['POST']) #utility-changeを参考にした
+def apply_system1():
+    try:
+        jsonData = request.get_json(force=True)  # POSTされたJSONを取得
+        df1 = pd.DataFrame(jsonData["data_1"], header=[0,1,2,3], index_col=[0,1,2]) #Results contain the required data
+        df2 = pd.DataFrame(jsonData["data_2"], header=[0,1,2], index_col=[0,1,2])
+        output = system1.main(df1, df2)
+        print("Analyzing Dataframe successful", file=sys.stderr)
+        print(output, file=sys.stderr)
+        return jsonify({"data": output})
+    except Exception:
+        return {
+                    'error': "{}".format(traceback.format_exc())
+                }    
+
+
 
 if __name__ == "__main__":
     app.run()
