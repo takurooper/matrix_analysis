@@ -1,7 +1,5 @@
 import numpy as np
 import pandas as pd
-import random
-import matplotlib.pyplot as plt
 
 #行列の正規化
 #入力の形

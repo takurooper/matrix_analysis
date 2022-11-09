@@ -1,7 +1,4 @@
-import numpy as np
 import pandas as pd
-import random
-import matplotlib.pyplot as plt
 
 #任意のマトリクス(ラベル多階層でもOK)を入力とし，
 #ラベルをシンプル化=1階層(label1,label2,,,)にしたマトリクスを作成
