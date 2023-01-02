@@ -74,6 +74,13 @@ def step2(df_DSM):
         part_of_new_DSM = remove_part_of_DSM(part_of_new_DSM, independent_column_list(part_of_new_DSM))
     return [new_DSM,part_of_new_DSM]
 
+# Partitioning Orderを反転させる（駒野さんと宗教の違い）
+def sort_DSM_ascending(df):
+    new_df = df[df.columns[::-1]]
+    new_df = new_df.iloc[::-1]
+    new_df.index = new_df.columns.to_list()
+    return new_df
+
 #メイン(これを実行すればOK)
 def DSM_partitioning(input_df):
     df_DSM = input_df.copy().fillna(0)
@@ -87,10 +94,11 @@ def DSM_partitioning(input_df):
     else:
         #step1を実行
         step1_DSM = step1(df_DSM)[0]
-        rest_part_of_step1_DSM = step1(df_DSM)[1]
+        # rest_part_of_step1_DSM = step1(df_DSM)[1]
         #step2を実行
         step2_DSM = step2(step1_DSM)[0]
+        print(step2_DSM)
         #step1とstep2を経ても残った要素のDSM(あとで活用するかも)
-        rest_part_of_step1_and_step2_DSM = step2(rest_part_of_step1_DSM)[1]
+        # rest_part_of_step1_and_step2_DSM = step2(rest_part_of_step1_DSM)[1]
     #return(step2_DSM,rest_part_of_step1_and_step2_DSM)
-    return(step2_DSM)
+    return(sort_DSM_ascending(step2_DSM))
