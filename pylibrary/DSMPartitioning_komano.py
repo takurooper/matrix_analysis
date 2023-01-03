@@ -1,3 +1,10 @@
+# 0を多く含んだ疎な行列のPartitioningを行うプログラム
+
+# step1:他の要素からの入力がなくて決定される(行が対角成分以外空白)要素らを上端に移動させて、その要素らを削除したDSMで同じことを繰り返し、最終的に並び替え終わったDSMを返す。
+# step2:他の要素に情報を伝達しない(列が対角成分以外空白)要素らを下端に移動させて、その要素らを削除したDSMで同じことを繰り返し、最終的に並び替え終わったDSMを返す。
+# ロジックは上の通り．つまり，[0,0,0,0,X,0,0,0]とその転置しか処理できていない．
+# それ以外のソートは対象外．
+
 #DataFrameのテーブル作り(本来はここが入力値に当たるところ)
 #※数字のみで構成されていること
 #例：
@@ -37,8 +44,8 @@ def remove_part_of_DSM(df_DSM, remove_label_list):
 
 #step1:他の要素からの入力がなくて決定される(行が対角成分以外空白)要素らを上端に移動させて、その要素らを削除したDSMで同じことを繰り返し、最終的に並び替え終わったDSMを返す。
 def step1(df_DSM):
-    new_DSM = df_DSM
-    part_of_new_DSM = df_DSM
+    new_DSM = df_DSM.copy()
+    part_of_new_DSM = df_DSM.copy()
     while len(independent_row_list(part_of_new_DSM)) != 0:
         new_DSM = move_to_the_top_DSM(new_DSM, independent_row_list(new_DSM))
         part_of_new_DSM = remove_part_of_DSM(part_of_new_DSM, independent_row_list(part_of_new_DSM))
@@ -64,11 +71,11 @@ def move_to_the_bottom_DSM(df_DSM, move_label_list):
     new_label_sequence_list = label_sequence_list + move_label_list
     new_df_DSM = df_DSM.reindex(index=new_label_sequence_list, columns=new_label_sequence_list)
     return(new_df_DSM)
-    
+
 #step2:他の要素に情報を伝達しない(列が対角成分以外空白)要素らを下端に移動させて、その要素らを削除したDSMで同じことを繰り返し、最終的に並び替え終わったDSMを返す。
 def step2(df_DSM):
-    new_DSM = df_DSM
-    part_of_new_DSM = df_DSM
+    new_DSM = df_DSM.copy()
+    part_of_new_DSM = df_DSM.copy()
     while len(independent_column_list(part_of_new_DSM)) != 0:
         new_DSM = move_to_the_bottom_DSM(new_DSM, independent_column_list(new_DSM))
         part_of_new_DSM = remove_part_of_DSM(part_of_new_DSM, independent_column_list(part_of_new_DSM))
@@ -94,10 +101,12 @@ def DSM_partitioning(input_df):
     else:
         #step1を実行
         step1_DSM = step1(df_DSM)[0]
+        print('step1_DSM.columns')
         # rest_part_of_step1_DSM = step1(df_DSM)[1]
         #step2を実行
         step2_DSM = step2(step1_DSM)[0]
-        print(step2_DSM)
+        print('step2_DSM.columns')
+        print(step2_DSM.columns)
         #step1とstep2を経ても残った要素のDSM(あとで活用するかも)
         # rest_part_of_step1_and_step2_DSM = step2(rest_part_of_step1_DSM)[1]
     #return(step2_DSM,rest_part_of_step1_and_step2_DSM)
