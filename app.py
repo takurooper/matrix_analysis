@@ -4,7 +4,7 @@ from flask import Flask, request, jsonify , render_template, session, redirect
 import pandas as pd
 from pandas import json_normalize
 import numpy as np
-from pylibrary import DSMClustering, DSMPartitioning, tradeoff, coordinate, utilityChange, ChangePropagation, OperationPreference, tradeoff_diff, coordinate_diff, system1, system2, system4
+from pylibrary import DSMClustering, DSMSequencing, tradeoff, coordinate, utilityChange, ChangePropagation, OperationPreference, tradeoff_diff, coordinate_diff, system1, system2, system4, DSMSortOrder
 import traceback
 
 app = Flask(__name__)
@@ -121,11 +121,28 @@ def apply_partitioning():
         input_df.index = jsonData["index"]
         input_df.columns = jsonData["columns"]
         #return render_template('simple.html',  tables=[input_df.to_html(classes='data')], titles=input_df.columns.values)
-        print("Input Dataframe successful", file=sys.stderr)
-        print(input_df, file=sys.stderr)
-        output_df = DSMPartitioning.DSM_partitioning(input_df)
-        print("Analyzing Dataframe successful", file=sys.stderr)
-        print(output_df, file=sys.stderr)
+        # print("Input Dataframe successful", file=sys.stderr)
+        # print(input_df, file=sys.stderr)
+        output_df = DSMSequencing.DSM_partitioning(input_df)
+        # print("Analyzing Dataframe successful", file=sys.stderr)
+        # print(output_df, file=sys.stderr)
+        arrayData = output_df.values.tolist()
+        index_list = list(output_df.index)
+        columns_list = list(output_df.columns)
+        return jsonify({"index":index_list, "columns":columns_list, "data": arrayData})
+    except Exception:
+        return {
+                    'error': "{}".format(traceback.format_exc())
+                }
+
+@app.route('/sort_order', methods=['POST'])
+def apply_sort_order():
+    try:
+        jsonData = request.get_json(force=True)  # POSTされたJSONを取得
+        input_df = pd.DataFrame(jsonData["data"]) #Results contain the required data
+        input_df.index = jsonData["index"]
+        input_df.columns = jsonData["columns"]
+        output_df = DSMSortOrder.DSM_sort_order(input_df)
         arrayData = output_df.values.tolist()
         index_list = list(output_df.index)
         columns_list = list(output_df.columns)
