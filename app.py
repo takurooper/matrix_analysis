@@ -140,9 +140,10 @@ def apply_sort_order():
     try:
         jsonData = request.get_json(force=True)  # POSTされたJSONを取得
         input_df = pd.DataFrame(jsonData["data"]) #Results contain the required data
+        input_df = input_df.astype(float)
         input_df.index = jsonData["index"]
         input_df.columns = jsonData["columns"]
-        output_df = DSMSortOrder.DSM_sort_order(input_df)
+        output_df, order = DSMSortOrder.DSM_sort_order(input_df)
         arrayData = output_df.values.tolist()
         index_list = list(output_df.index)
         columns_list = list(output_df.columns)
