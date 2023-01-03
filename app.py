@@ -123,7 +123,7 @@ def apply_partitioning():
         #return render_template('simple.html',  tables=[input_df.to_html(classes='data')], titles=input_df.columns.values)
         # print("Input Dataframe successful", file=sys.stderr)
         # print(input_df, file=sys.stderr)
-        output_df = DSMSequencing.DSM_partitioning(input_df)
+        output_df = DSMSequencing.DSM_sequencing(input_df)
         # print("Analyzing Dataframe successful", file=sys.stderr)
         # print(output_df, file=sys.stderr)
         arrayData = output_df.values.tolist()
